@@ -1,6 +1,6 @@
 package com.uguinformatica.bluemoon_adminweb.controller;
 
-import com.uguinformatica.bluemoon_adminweb.model.AppUser;
+import com.uguinformatica.bluemoon_adminweb.model.User;
 import com.uguinformatica.bluemoon_adminweb.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class ProfileController {
 
     @GetMapping("/overview")
     public String getProfileOverview(Model model) {
-        AppUser user = userService.getCurrentUser().get(); // Get current user.
+        User user = userService.getCurrentUser().get(); // Get current user.
 
         if (user != null) {
             model.addAttribute("user", user);

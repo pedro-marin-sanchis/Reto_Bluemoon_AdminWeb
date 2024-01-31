@@ -1,76 +1,46 @@
 package com.uguinformatica.bluemoon_adminweb.service.user;
 
-import com.uguinformatica.bluemoon_adminweb.model.AppUser;
-import com.uguinformatica.bluemoon_adminweb.repository.UserRepository;
+import com.uguinformatica.bluemoon_adminweb.model.Role;
+import com.uguinformatica.bluemoon_adminweb.model.User;
+
+import com.uguinformatica.bluemoon_adminweb.service.APIConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    public UserServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     @Override
-    public List<AppUser> getAllUsers() {
-        return userRepository.findAll();
+    public Optional<User> getUserByUsername(String username) {
+        //DEBUG:
+        double balance = 9000;
+        HashSet<Role> roles = new HashSet<Role>();
+        Role role = new Role();
+        role.setName("ADMIN");
+        role.setId(0L);
+        roles.add(role);
+        User userDebug = new User("pmarins", "Pedro", "Marin Sanchís", "pmarins@bluemoon.com", "0894759083", "C/Calle N1", balance, "$2y$10$6aKyQdp44BvALjgeVXpkQeSqQ2sWGT56T0F6dIGM3IdgT2UKVCvS.", roles);
+        return Optional.ofNullable(userDebug);
+        //return Optional.ofNullable(restTemplate.getForObject(APIConstants.API_URL + "/user/" + username, User.class));
     }
 
     @Override
-    public Optional<AppUser> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    @Override
-    public Optional<AppUser> getUserByUsername(String username) { return userRepository.findByUsername(username); }
-
-    @Override
-    public Optional<AppUser> getCurrentUser() {
+    public Optional<User> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         return getUserByUsername(username);
-    }
-
-    @Override
-    public AppUser createUser(AppUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    @Override
-    public AppUser updateUser(Long id, AppUser updatedUser) {
-        Optional<AppUser> existingUser = userRepository.findById(id);
-
-        if (existingUser.isPresent()) {
-            AppUser userToUpdate = existingUser.get();
-            userToUpdate.setUsername(updatedUser.getUsername());
-            userToUpdate.setName(updatedUser.getName());
-            userToUpdate.setLastName(updatedUser.getLastName());
-            userToUpdate.setEmail(updatedUser.getEmail());
-            userToUpdate.setPhoneNumber(updatedUser.getPhoneNumber());
-            userToUpdate.setOrders(updatedUser.getOrders());
-            userToUpdate.setRolesAssociated(updatedUser.getRolesAssociated());
-            userToUpdate.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
-            return userRepository.save(userToUpdate);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
     }
 }

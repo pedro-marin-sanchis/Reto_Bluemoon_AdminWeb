@@ -1,6 +1,6 @@
 package com.uguinformatica.bluemoon_adminweb.service.user;
 
-import com.uguinformatica.bluemoon_adminweb.model.AppUser;
+import com.uguinformatica.bluemoon_adminweb.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,27 +9,27 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
-    private final AppUser appUser;
+    private final User user;
 
-    public CustomUserDetails(AppUser appUser) {
-        this.appUser = appUser;
+    public CustomUserDetails(User user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return appUser.getRolesAssociated().stream()
+        return user.getRolesAssociated().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toSet());
     }
 
     @Override
     public String getPassword() {
-        return appUser.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return appUser.getUsername();
+        return user.getUsername();
     }
 
     @Override

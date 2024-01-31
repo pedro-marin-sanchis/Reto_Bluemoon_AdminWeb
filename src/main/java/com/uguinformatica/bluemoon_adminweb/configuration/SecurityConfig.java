@@ -1,4 +1,4 @@
-package com.uguinformatica.bluemoon_adminweb.security;
+package com.uguinformatica.bluemoon_adminweb.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

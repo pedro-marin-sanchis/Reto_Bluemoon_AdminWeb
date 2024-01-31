@@ -1,0 +1,46 @@
+<div th:fragment="navbar(user)">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Brand/logo -->
+            <a class="navbar-brand" href="/app/dashboard">
+                <img class="" th:src="@{/image/Bluemoon_Logo_Transparent.png}" style="width: 80px;" alt="¡NomNomNectar!">
+            </a>
+
+            <!-- Toggle button for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation Buttons -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/silvertype/list" style="font-size: 18pt;">Silver Types</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/trade/list" style="font-size: 18pt;">Trades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/product/list" style="font-size: 18pt;">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/profile/overview" style="font-size: 18pt;">Profile</a>
+                    </li>
+                </ul>
+
+                <!-- Logout button if user is not null -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" th:if="${user != null}">
+                        <form action="#" th:action="@{/auth/logout}" method="post" class="form-horizontal">
+                            <div class="text-center">
+                                <button class="nav-link" type="submit" style="font-size: 15pt;"><img th:src="@{/image/svg/logout_FILL0_wght200_GRAD-25_opsz48.svg}" style="width: 35px;" alt=""></button>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

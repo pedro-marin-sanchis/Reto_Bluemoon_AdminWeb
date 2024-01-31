@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Include Bootstrap CSS from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" th:href="@{/image/Bluemoon_FavIcon.png}">
+    <title>Bluemoon - Profile</title>
+</head>
+<body style="background-color: #eee;">
+
+<div th:replace="~{fragments/navbar :: navbar(user=${user})}"></div>
+
+<!-- Website content here -->
+<div>
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-4">
+                <div class="card rounded-3 text-black">
+                    <div class="card-body p-md-4 h-100 align-items-center">
+                        <div class="w-100 text-center">
+                            <h4>User Profile</h4>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <span class="fw-bold">Username</span>
+                            <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
+                                <div th:text="${user.getUsername()}" class="p-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <span class="fw-bold">E-mail</span>
+                            <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
+                                <div th:text="${user.getEmail()}" class="p-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <span class="fw-bold">Name</span>
+                            <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
+                                <div th:text="${user.getName()}" class="p-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <span class="fw-bold">Surnames</span>
+                            <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
+                                <div th:text="${user.getLastName()}" class="p-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <span class="fw-bold">Roles</span>
+                            <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
+                                <div th:each="role : ${user.getRolesAssociated()}" class="p-2" th:text="${role.getName()}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Keep JS at the bottom! -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

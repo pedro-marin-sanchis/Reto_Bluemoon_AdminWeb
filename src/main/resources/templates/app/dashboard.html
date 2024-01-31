@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Include Bootstrap CSS from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" th:href="@{/image/Bluemoon_FavIcon.png}">
+    <title>Bluemoon - Dashboard</title>
+</head>
+<body style="background-color: #eee;">
+
+<div th:replace="~{fragments/navbar :: navbar(user=${user})}"></div>
+
+<!-- Website content here -->
+<div>
+    <div class="container p-5">
+        <div class="row">
+            <div class="col-sm mb-5">
+                <a href="/app/silvertype/list" class="text-decoration-none">
+                    <div class="card p-4 text-center">
+                        <div class="d-flex justify-content-center mb-3">
+                            <img th:src="@{/image/svg/universal_currency_FILL0_wght200_GRAD-25_opsz48.svg}" style="width: 200px;" alt="">
+                        </div>
+                        <span class="h3">Silver Types</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="/app/trade/list" class="text-decoration-none">
+                    <div class="card p-4 text-center">
+                        <div class="d-flex justify-content-center mb-3">
+                            <img th:src="@{/image/svg/package_2_FILL0_wght200_GRAD-25_opsz48.svg}" style="width: 200px;" alt="">
+                        </div>
+                        <span class="h3">Trades</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="/app/product/list" class="text-decoration-none">
+                    <div class="card p-4 text-center">
+                        <div class="d-flex justify-content-center mb-3">
+                            <img th:src="@{/image/svg/inventory_FILL0_wght200_GRAD-25_opsz48.svg}" style="width: 200px;" alt="">
+                        </div>
+                        <span class="h3">Products</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm">
+                <a href="/app/profile/overview" class="text-decoration-none">
+                    <div class="card p-4 text-center">
+                        <div class="d-flex justify-content-center mb-3">
+                            <img th:src="@{/image/svg/account_circle_FILL0_wght200_GRAD-25_opsz48.svg}" style="width: 200px;" alt="">
+                        </div>
+                        <span class="h3">Profile</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Keep JS at the bottom! -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

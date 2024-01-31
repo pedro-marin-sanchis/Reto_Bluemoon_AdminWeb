@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Include Bootstrap CSS from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" th:href="@{/image/Bluemoon_FavIcon.png}">
+    <title>Bluemoon - Register</title>
+    <style th:inline="css" type="text/css" media="screen, print">
+        @font-face {
+            font-family: "MacondoSwash";
+            font-weight: normal;
+            src: url("[(@{/font/MacondoSwashCaps-Regular.ttf})]");
+        }
+    </style>
+</head>
+<body style="background-color: #eee;">
+
+<div th:replace="~{fragments/titlebar :: titlebar}"></div>
+
+<!-- Website content here -->
+<div>
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-4">
+                <div class="card rounded-3 text-black">
+                    <div class="card-body p-md-4 h-100 align-items-center">
+                        <form action="#" th:action="@{/auth/register}" method="post" class="form-horizontal">
+                            <div class="w-100 text-center">
+                                <p>Please fill out the registration form</p>
+                            </div>
+
+                            <div class="w-100 text-center alert alert-danger" th:if="${param.error}">
+                                <p>The user alredy exists / Form is incorrectly filled</p>
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="username">Username</label>
+                                <input type="text" name="username" id="username" class="form-control"
+                                       placeholder="" />
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="username">Name</label>
+                                <input type="text" name="name" id="name" class="form-control"
+                                       placeholder="" />
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="lastname">Surnames</label>
+                                <input type="text" name="lastname" id="lastname" class="form-control"
+                                       placeholder="" />
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="email">Email</label>
+                                <input type="text" name="email" id="email" class="form-control"
+                                       placeholder="" />
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="phonenumber">Phone number</label>
+                                <input type="text" name="phonenumber" id="phonenumber" class="form-control"
+                                       placeholder="" />
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <label class="form-label" for="password">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" />
+                            </div>
+
+                            <div class="text-center pt-1 mb-4">
+                                <button class="btn btn-outline-dark btn-block fa-lg" type="submit">Register</button>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-center">
+                                <p class="mb-0 me-2 small">Alredy have an account?</p>
+                                <a class="nav-link" href="/auth/login"><button type="button" class="btn btn-outline-danger btn-sm">Log in</button></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Keep JS at the bottom! -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
+

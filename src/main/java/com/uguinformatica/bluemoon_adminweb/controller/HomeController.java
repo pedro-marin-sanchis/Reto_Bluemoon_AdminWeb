@@ -21,14 +21,9 @@ public class HomeController {
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
-        User user = userService.getCurrentUser().get(); // Get current user.
-
-        if (user != null) {
-            model.addAttribute("user", user);
-            return "/app/dashboard";
-        } else {
-            return "redirect:/login";
-        }
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        model.addAttribute("user", user);
+        return "/app/dashboard";
     }
 
 }

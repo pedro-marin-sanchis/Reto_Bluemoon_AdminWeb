@@ -12,12 +12,11 @@ public class User {
 
     public User() {}
 
-    public User(String username, String name, String lastName, String email, String phoneNumber, String address, Double balance, String password, Set<Role> rolesAssociated) {
+    public User(String username, String name, String surnames, String email, String address, Double balance, String password, Set<Role> rolesAssociated) {
         this.username = username;
         this.name = name;
-        this.lastName = lastName;
+        this.surnames = surnames;
         this.email = email;
-        this.phoneNumber = phoneNumber;
         this.address = address;
         this.balance = balance;
         this.password = password;
@@ -27,9 +26,8 @@ public class User {
     private Long id;
     private String username;
     private String name;
-    private String lastName;
+    private String surnames;
     private String email;
-    private String phoneNumber;
     private String address;
     private Double balance;
     private String password;

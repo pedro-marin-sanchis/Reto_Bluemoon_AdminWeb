@@ -21,7 +21,7 @@
                 <div class="card rounded-3 text-black">
                     <div class="card-body p-md-4 h-100 align-items-center">
                         <div class="w-100 text-center">
-                            <h4>User Profile</h4>
+                            <h4>Administrator Profile</h4>
                         </div>
                         <div class="form-outline mb-2">
                             <span class="fw-bold">Username</span>
@@ -44,7 +44,19 @@
                         <div class="form-outline mb-2">
                             <span class="fw-bold">Surnames</span>
                             <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
-                                <div th:text="${user.getLastName()}" class="p-2"></div>
+                                <div th:text="${user.getSurnames()}" class="p-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <span class="fw-bold">Address</span>
+                            <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
+                                <div th:text="${user.getAddress()}" class="p-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <span class="fw-bold">Balance</span>
+                            <div class="card-body-sm align-items-center border rounded" style="background-color: #eee;">
+                                <div th:text="${user.getBalance()}" class="p-2"></div>
                             </div>
                         </div>
                         <div class="form-outline mb-2">

@@ -25,16 +25,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        //DEBUG:
-        double balance = 9000;
-        HashSet<Role> roles = new HashSet<Role>();
-        Role role = new Role();
-        role.setName("ADMIN");
-        role.setId(0L);
-        roles.add(role);
-        User userDebug = new User("pmarins", "Pedro", "Marin Sanchís", "pmarins@bluemoon.com", "0894759083", "C/Calle N1", balance, "$2y$10$6aKyQdp44BvALjgeVXpkQeSqQ2sWGT56T0F6dIGM3IdgT2UKVCvS.", roles);
-        return Optional.ofNullable(userDebug);
-        //return Optional.ofNullable(restTemplate.getForObject(APIConstants.API_URL + "/user/" + username, User.class));
+        Optional<User> user = Optional.ofNullable(restTemplate.getForObject(APIConstants.API_URL + "/users/" + username, User.class));
+        return user;
     }
 
     @Override

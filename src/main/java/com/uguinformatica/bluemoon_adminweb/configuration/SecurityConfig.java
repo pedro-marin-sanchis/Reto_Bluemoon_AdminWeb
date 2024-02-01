@@ -2,6 +2,7 @@ package com.uguinformatica.bluemoon_adminweb.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,22 +20,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(config -> config
-                // RESOURCES
                 .requestMatchers("/image/**", "/css/**", "/js/**", "/font/**").permitAll()
-
-                // AUTH
                 .requestMatchers("/auth/logout").authenticated()
                 .requestMatchers("/auth/**").permitAll()
-
-                // ADMIN
-                .requestMatchers("app/admin/**").hasAuthority("ADMIN")
-
-                // APP
-                .requestMatchers("app/**").hasAnyAuthority("USER", "ADMIN")
-
-                // ALL DENIED BY DEFAULT
-                .anyRequest().denyAll()
-
+                .anyRequest().hasAuthority("ADMIN")
         ).formLogin(form ->
                 form
                         .loginPage("/auth/login")
@@ -50,7 +39,7 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .addLogoutHandler(new SecurityContextLogoutHandler())
                         .permitAll()
-        ).csrf(Customizer.withDefaults());
+        ).csrf().disable();
 
         return http.build();
     }

@@ -22,4 +22,5 @@ public class RoleServiceImpl implements IRoleService {
     public Optional<Role> getRoleByName(String name) {
         return Optional.ofNullable(restTemplate.getForObject(APIConstants.API_URL + "/role/" + name, Role.class));
     }
+
 }

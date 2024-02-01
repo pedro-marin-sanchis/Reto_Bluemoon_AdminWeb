@@ -21,13 +21,8 @@ public class ProfileController {
 
     @GetMapping("/overview")
     public String getProfileOverview(Model model) {
-        User user = userService.getCurrentUser().get(); // Get current user.
-
-        if (user != null) {
-            model.addAttribute("user", user);
-            return "/app/profile/profile_overview";
-        } else {
-            return "redirect:/login";
-        }
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        model.addAttribute("user", user);
+        return "/app/profile/profile_overview";
     }
 }

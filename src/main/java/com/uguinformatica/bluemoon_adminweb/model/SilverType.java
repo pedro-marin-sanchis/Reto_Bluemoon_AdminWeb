@@ -12,6 +12,6 @@ public class SilverType {
     private int id;
     private String name;
     private double currentPrice;
-    private Set<Tradeable> tradeables;
+    private Boolean disabled;
 
 }

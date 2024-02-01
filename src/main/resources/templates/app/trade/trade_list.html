@@ -15,7 +15,57 @@
 
 <!-- Website content here -->
 <div>
-
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-6">
+                <div class="card rounded-3 text-black">
+                    <div class="card-body p-md-5 h-100">
+                        <div class="text-center mb-4">
+                            <h4>Silver Types</h4>
+                        </div>
+                        <!-- Iterate over trades -->
+                        <div class="row mb-3" th:each="trade : ${trades}">
+                            <div class="card-body d-flex justify-content-between align-items-center border rounded p-2" style="background-color: #eee;">
+                                <div class="col-1 align-items-center">
+                                    <span class="fw-bold p-lg-2">ID: </span>
+                                    <span th:text="${trade.id}"></span>
+                                </div>
+<!--                                <div class="col-3 p-1 align-items-center">-->
+<!--                                    <span class="fw-bold">User: </span>-->
+<!--                                    <span th:text="${trade.user.username}"></span>-->
+<!--                                </div>-->
+                                <div class="col-5 p-1 align-items-center">
+                                    <span class="fw-bold">Date: </span>
+                                    <span th:text="${trade.date}"></span>
+                                    <span>€/g</span>
+                                </div>
+                                <div class="col-5 p-1 align-items-center">
+                                    <span class="fw-bold">Valid: </span>
+                                    <span th:text="${trade.validated}"></span>
+                                    <span>€/g</span>
+                                </div>
+                                <div class="col-3 align-items-center justify-content-end d-flex">
+                                    <span class="p-1">
+                                        <a th:href="@{/app/trade/inspect/{id}(id=${silvertype.getId()})}" class="d-flex justify-content-end text-decoration-none">
+                                            <button class="btn btn-primary btn-light fa-lg">Inspect</button>
+                                        </a>
+                                    </span>
+                                    <form th:action="@{/app/trade/delete/{id}(id=${silvertype.getId()})}" method="post" onsubmit="return confirm('Are you sure you want to dispatch? It will hide the trade forever.');" class="d-flex justify-content-end text-decoration-none">
+                                        <button class="btn btn-primary btn-light fa-lg" type="submit">Dispatch</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="p-1">
+                            <a th:href="@{/app/silvertype/new}" class="d-flex justify-content-end text-decoration-none">
+                                <button class="btn btn-primary fa-lg">New</button>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Keep JS at the bottom! -->

@@ -32,7 +32,8 @@ public class UserServiceImpl implements IUserService {
 
     public Optional<User> getUserByUsername(String username) {
 
-        String token = getUserAuthToken("a", "a");
+        String token = getUserAuthToken("bluemoon_admin", "ur%]SEmRPcvMqfB;2xs>!");
+        // HASH: $2y$10$mYRmCJmc5jcD2dniHqJISOfQRqTXCayVibX/t2kynDPyL0X0cUOpy
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);

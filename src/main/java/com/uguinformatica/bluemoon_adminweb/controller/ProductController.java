@@ -24,17 +24,18 @@ public class ProductController {
 
     @GetMapping("/list")
     public String getProductList(Model model) {
-        model.addAttribute("products", productService.getAllProducts().orElse(null));
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
+        model.addAttribute("products", productService.getAllProducts(user.getAuthToken()).orElse(null));
         return "/app/product/product_list";
     }
 
     @GetMapping("/edit/{id}")
     public String getProductEdit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("product", productService.getProductByID(id).orElse(null));
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
+
+        model.addAttribute("product", productService.getProductByID(id, user.getAuthToken()).orElse(null));
         return "/app/product/product_edit";
     }
 
@@ -46,16 +47,17 @@ public class ProductController {
             @ModelAttribute("description") String description,
             @ModelAttribute("img") String img,
             @ModelAttribute("price") double price) {
-        Product updatedProduct = productService.getProductByID(id).orElse(null);
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        model.addAttribute("user", user);
+
+        Product updatedProduct = productService.getProductByID(id, user.getAuthToken()).orElse(null);
         if (updatedProduct != null) {
             updatedProduct.setName(name);
             updatedProduct.setDescription(description);
             updatedProduct.setImg(img);
             updatedProduct.setPrice(price);
-            productService.updateProduct(updatedProduct);
+            productService.updateProduct(updatedProduct, user.getAuthToken());
         }
-        User user = userService.getCurrentUser().orElse(null); // Get current user.
-        model.addAttribute("user", user);
         return "redirect:/app/product/list";
     }
 
@@ -68,7 +70,8 @@ public class ProductController {
 
     @PostMapping("/delete/{id}")
     public String postProductDelete(@PathVariable("id") long id) {
-        productService.deleteProduct(id);
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        productService.deleteProduct(id, user.getAuthToken());
         return "redirect:/app/product/list";
     }
 
@@ -79,14 +82,15 @@ public class ProductController {
             @ModelAttribute("description") String description,
             @ModelAttribute("img") String img,
             @ModelAttribute("price") double price) {
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        model.addAttribute("user", user);
+
         Product product = new Product();
         product.setName(name);
         product.setDescription(description);
         product.setImg(img);
         product.setPrice(price);
-        productService.createProduct(product);
-        User user = userService.getCurrentUser().orElse(null); // Get current user.
-        model.addAttribute("user", user);
+        productService.createProduct(product, user.getAuthToken());
         return "redirect:/app/product/list";
     }
 

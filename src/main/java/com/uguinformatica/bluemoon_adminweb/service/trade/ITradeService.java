@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ITradeService {
-    Optional<List<Trade>> getAllTrades();
-    Optional<Trade> getTradeById(int id);
-    void createTrade(Trade trade);
-    void updateTrade(Trade trade);
-    void deleteTrade(int id);
+    Optional<List<Trade>> getAllTrades(String token);
+    Optional<Trade> getTradeById(int id, String token);
+    void updateTrade(Trade trade, String token);
+    void deleteTrade(int id, String token);
 }

@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProductService {
-    Optional<List<Product>> getAllProducts();
-    Optional<Product> getProductByID(long id);
-    void updateProduct(Product product);
-    void createProduct(Product product);
-    void deleteProduct(long id);
+    Optional<List<Product>> getAllProducts(String token);
+    Optional<Product> getProductByID(long id, String token);
+    void updateProduct(Product product, String token);
+    void createProduct(Product product, String token);
+    void deleteProduct(long id, String token);
 }

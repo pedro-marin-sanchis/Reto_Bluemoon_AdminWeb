@@ -24,34 +24,39 @@ public class SilverTypeController {
 
     @GetMapping("/list")
     public String getSilverTypeList(Model model) {
-        model.addAttribute("silvertypes", silverTypeService.getAllSilverTypes().orElse(null));
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
+
+        model.addAttribute("silvertypes", silverTypeService.getAllSilverTypes(user.getAuthToken()).orElse(null));
         return "/app/silvertype/silvertype_list";
     }
 
     @GetMapping("/edit/{id}")
     public String getSilverTypeEdit(Model model, @PathVariable long id) {
-        model.addAttribute("silvertype", silverTypeService.getSilverTypeByID(id).orElse(null));
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
+
+        model.addAttribute("silvertype", silverTypeService.getSilverTypeByID(id, user.getAuthToken()).orElse(null));
         return "/app/silvertype/silvertype_edit";
     }
 
     @PostMapping("/edit/{id}")
     public String postSilverTypeEdit(@PathVariable long id, @ModelAttribute("name") String name, @ModelAttribute("currentPrice") double currentPrice) {
-        SilverType silverType = silverTypeService.getSilverTypeByID(id).orElse(null);
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+
+        SilverType silverType = silverTypeService.getSilverTypeByID(id, user.getAuthToken()).orElse(null);
         if (silverType != null) {
             silverType.setCurrentPrice(currentPrice);
             silverType.setName(name);
-            silverTypeService.updateSilverType(silverType);
+            silverTypeService.updateSilverType(silverType, user.getAuthToken());
         }
         return "redirect:/app/silvertype/list";
     }
 
     @PostMapping("/delete/{id}")
     public String postSilverTypeDelete(@PathVariable long id) {
-        silverTypeService.deleteSilverType(id);
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        silverTypeService.deleteSilverType(id, user.getAuthToken());
         return "redirect:/app/silvertype/list";
     }
 
@@ -64,10 +69,11 @@ public class SilverTypeController {
 
     @PostMapping("/new")
     public String postSilverTypeNew(@ModelAttribute("name") String name, @ModelAttribute("currentPrice") double currentPrice) {
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
         SilverType silverType = new SilverType();
         silverType.setCurrentPrice(currentPrice);
         silverType.setName(name);
-        silverTypeService.createSilverType(silverType);
+        silverTypeService.createSilverType(silverType, user.getAuthToken());
         return "redirect:/app/silvertype/list";
     }
 

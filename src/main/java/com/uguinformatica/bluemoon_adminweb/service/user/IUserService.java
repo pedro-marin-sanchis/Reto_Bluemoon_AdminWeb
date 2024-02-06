@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface IUserService {
     Optional<User> getUserByUsername(String username);
     Optional<User> getCurrentUser();
+    String getUserAuthToken(String username, String password);
+    String getCurrentUserAuthToken();
 }

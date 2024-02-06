@@ -28,17 +28,19 @@ public class TradeController {
 
     @GetMapping("/list")
     public String getTradeList(Model model) {
-        model.addAttribute("trades", tradeService.getAllTrades().orElse(null));
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
+
+        model.addAttribute("trades", tradeService.getAllTrades(user.getAuthToken()).orElse(null));
         return "/app/trade/trade_list";
     }
 
     @GetMapping("/inspect/{id}")
     public String getTradeInspect(Model model, @PathVariable("id") int id) {
-        model.addAttribute("trade", tradeService.getTradeById(id).orElse(null));
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
+
+        model.addAttribute("trade", tradeService.getTradeById(id, user.getAuthToken()).orElse(null));
         return "/app/trade/trade_inspect";
     }
 
@@ -46,50 +48,23 @@ public class TradeController {
     public String postTradeInspect(
             Model model,
             @PathVariable int id,
-            @ModelAttribute("validated") Boolean validated) {
-        Trade updatedTrade = tradeService.getTradeById(id).orElse(null);
-        if (updatedTrade != null) {
-            updatedTrade.setValidated(validated);
-            tradeService.updateTrade(updatedTrade);
-        }
-        User currentUser = userService.getCurrentUser().orElse(null); // Get current user.
-        model.addAttribute("user", currentUser);
-        return "redirect:/app/trade/list";
-    }
-
-    /*
-    @GetMapping("/new")
-    public String getTradeNew(Model model) {
+            @ModelAttribute("approval") Boolean approval) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
-        return "/app/trade/trade_new";
+
+        Trade updatedTrade = tradeService.getTradeById(id, user.getAuthToken()).orElse(null);
+        if (updatedTrade != null) {
+            updatedTrade.setValidated(approval);
+            tradeService.updateTrade(updatedTrade, user.getAuthToken());
+        }
+        return "redirect:/app/trade/list";
     }
-    */
 
     @PostMapping("/delete/{id}")
     public String postTradeDelete(@PathVariable("id") int id) {
-        tradeService.deleteTrade(id);
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        tradeService.deleteTrade(id, user.getAuthToken());
         return "redirect:/app/trade/list";
     }
-
-    /*
-    @PostMapping("/new")
-    public String postTradeNew(
-            Model model,
-            @ModelAttribute("date") Date date,
-            @ModelAttribute("validated") Boolean validated,
-            @ModelAttribute("user") User user,
-            @ModelAttribute("tradeables") Set<Tradeable> tradeables) {
-        Trade trade = new Trade();
-        trade.setDate(date);
-        trade.setValidated(validated);
-        trade.setUser(user);
-        trade.setTradeables(tradeables);
-        tradeService.createTrade(trade);
-        User currentUser = userService.getCurrentUser().orElse(null); // Get current user.
-        model.addAttribute("user", currentUser);
-        return "redirect:/app/trade/list";
-    }
-    */
 
 }

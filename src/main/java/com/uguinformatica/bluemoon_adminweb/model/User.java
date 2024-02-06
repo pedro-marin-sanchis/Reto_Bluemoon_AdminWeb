@@ -12,7 +12,7 @@ public class User {
 
     public User() {}
 
-    public User(String username, String name, String surnames, String email, String address, Double balance, String password, Set<Role> rolesAssociated) {
+    public User(String username, String name, String surnames, String email, String address, Double balance, String password, Set<Role> rolesAssociated, String authToken) {
         this.username = username;
         this.name = name;
         this.surnames = surnames;
@@ -21,6 +21,7 @@ public class User {
         this.balance = balance;
         this.password = password;
         this.rolesAssociated = rolesAssociated;
+        this.authToken = authToken;
     }
 
     private Long id;
@@ -32,5 +33,6 @@ public class User {
     private Double balance;
     private String password;
     private Set<Role> rolesAssociated = new HashSet<>();
+    private String authToken;
 
 }

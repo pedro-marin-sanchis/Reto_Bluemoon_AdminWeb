@@ -1,16 +1,23 @@
 package com.uguinformatica.bluemoon_adminweb.service.user;
 
-import com.uguinformatica.bluemoon_adminweb.model.Role;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uguinformatica.bluemoon_adminweb.model.User;
 
 import com.uguinformatica.bluemoon_adminweb.service.APIConstants;
+import com.uguinformatica.bluemoon_adminweb.service.auth.CustomAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashSet;
+import javax.swing.text.html.Option;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,16 +30,62 @@ public class UserServiceImpl implements IUserService {
         this.restTemplate = restTemplate;
     }
 
-    @Override
     public Optional<User> getUserByUsername(String username) {
-        Optional<User> user = Optional.ofNullable(restTemplate.getForObject(APIConstants.API_URL + "/users/" + username, User.class));
-        return user;
+
+        String token = getUserAuthToken("a", "a");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<User> response = restTemplate.exchange(
+                APIConstants.API_URL + "/users/" + username,
+                HttpMethod.GET,
+                entity,
+                User.class
+        );
+
+        return Optional.ofNullable(response.getBody());
+    }
+
+    public Optional<User> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof CustomAuthenticationToken) {
+            CustomAuthenticationToken customAuthToken = (CustomAuthenticationToken) authentication;
+            String username = customAuthToken.getName();
+            String token = customAuthToken.getToken();
+            Optional<User> user = getUserByUsername(username);
+            user.get().setAuthToken(token);
+            return user;
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Optional<User> getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        return getUserByUsername(username);
+    public String getUserAuthToken(String username, String password) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("username", username);
+        requestBody.put("password", password);
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(APIConstants.API_URL + "/login", requestEntity, String.class);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(response.getBody());
+            return root.get("token").asText();
+        } catch(HttpClientErrorException e) {
+            System.out.println("Login failed -> HTTP Response "+e.getMessage());
+        } catch (IOException ignored) {}
+        return null;
     }
+
+    @Override
+    public String getCurrentUserAuthToken() {
+        return "a";
+    }
+
 }

@@ -23,60 +23,87 @@
                         <div class="text-center mb-4">
                             <h4>Inspect Trade</h4>
                         </div>
-                        <!-- Silver Type -->
+                        <!-- Trade -->
                         <div class="row mb-3">
-                            <form th:action="@{/app/trade/inspect/{id}(id=${trade.getId()})}" method="post" class="card-body d-flex justify-content-between align-items-center border rounded p-2" style="background-color: #eee;">
+                            <div class="card-body border rounded p-2" style="background-color: #eee;">
 
                                 <!-- ID -->
-                                <div class="row">
+                                <div class="ms-1 row">
                                     <div class="col-12 p-2">
                                         <span class="fw-bold p-lg-2 p-1">ID: </span>
                                         <span th:text="${trade.id}"></span>
                                     </div>
                                 </div>
 
-                                <!-- User -->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-12 p-2">-->
-<!--                                        <label for="name" class="fw-bold p-1">User: </label>-->
-<!--                                        <input type="text" id="name" name="name" th:value="${trade.user.username}" class="form-control">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
                                 <!-- Date -->
-                                <div class="row">
+                                <div class="ms-1 row">
                                     <div class="col-12 p-2">
-                                        <label for="description" class="fw-bold p-1">Date: </label>
-                                        <input type="text" id="description" name="description" th:value="${trade.date}" class="form-control">
+                                        <span class="fw-bold p-lg-2 p-1">Date: </span>
+                                        <span th:text="${trade.date}"></span>
                                     </div>
                                 </div>
 
-                                <div class="row text-center mb-4">
-                                    <h4>Items</h4>
+                                <div class="row text-center mb-2">
+                                    <h5>Items</h5>
                                 </div>
 
-                                <!-- Image -->
-                                <div class="row">
-                                    <div class="col-12 p-2">
-                                        <label for="img" class="fw-bold p-1">Image URL: </label>
-                                        <input type="text" id="img" name="img" th:value="${trade.tradeables}" class="form-control">
+                                <!-- Tradeables -->
+                                <div th:each="tradeable : ${trade.tradeables}" class="row p-2 m-2 card" style="background-color: #ffffff;">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-6 p-2">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold p-lg-2 p-1">ID: </span>
+                                                <span th:text="${tradeable.id}"></span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold p-lg-2 p-1">Description: </span>
+                                                <span th:text="${tradeable.description}"></span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold p-lg-2 p-1">Silver Type: </span>
+                                                <span th:text="${tradeable.silverType.name}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 p-2">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold p-lg-2 p-1">Weight: </span>
+                                                <span th:text="${tradeable.weight}"></span>
+                                                <span>g</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold p-lg-2 p-1">Sell Price: </span>
+                                                <span th:text="${tradeable.sellPrice}"></span>
+                                                <span>€/g</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold p-lg-2 p-1">Value: </span>
+                                                <span th:text="${tradeable.weight*tradeable.sellPrice}"></span>
+                                                <span>€</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Save and Cancel buttons -->
+                                <!-- Buttons -->
                                 <div class="row">
-                                    <div class="col-3 d-flex justify-content-end align-items-center">
+                                    <div class="col-12 d-flex justify-content-end align-items-center">
+                                        <form th:action="@{/app/trade/inspect/{id}(id=${trade.id})}" onsubmit="return confirm('Are you sure you want to approve this trade?');" method="post" class="p-1">
+                                            <input type="hidden" name="approval" value="true" />
+                                            <button type="submit" class="btn btn-success fa-lg">Approve</button>
+                                        </form>
+                                        <form th:action="@{/app/trade/inspect/{id}(id=${trade.id})}" onsubmit="return confirm('Are you sure you want to deny this trade?');" method="post" class="p-1">
+                                            <input type="hidden" name="approval" value="false" />
+                                            <button type="submit" class="btn btn-danger fa-lg">Deny</button>
+                                        </form>
+                                        <span class="p-2"></span>
                                         <span class="p-1">
-                                            <button type="submit" class="btn btn-primary btn-light fa-lg">Save</button>
-                                        </span>
-                                        <span>
                                             <a th:href="@{/app/trade/list}" class="d-flex justify-content-end text-decoration-none">
                                                 <button type="button" class="btn btn-primary btn-light fa-lg">Cancel</button>
                                             </a>
                                         </span>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

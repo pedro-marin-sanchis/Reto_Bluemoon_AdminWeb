@@ -10,6 +10,6 @@ public class ApplicationConfig {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }
+    } // To provide RestTemplate for Services.
 
 }

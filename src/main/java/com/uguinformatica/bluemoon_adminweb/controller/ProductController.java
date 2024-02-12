@@ -22,21 +22,23 @@ public class ProductController {
         this.productService = productService;
     }
 
+    // PLP
     @GetMapping("/list")
     public String getProductList(Model model) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
         model.addAttribute("products", productService.getAllProducts(user.getAuthToken()).orElse(null));
-        return "/app/product/product_list";
+        return "app/product/product_list";
     }
 
+    // EDIT
     @GetMapping("/edit/{id}")
     public String getProductEdit(Model model, @PathVariable("id") long id) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
 
         model.addAttribute("product", productService.getProductByID(id, user.getAuthToken()).orElse(null));
-        return "/app/product/product_edit";
+        return "app/product/product_edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -58,21 +60,15 @@ public class ProductController {
             updatedProduct.setPrice(price);
             productService.updateProduct(updatedProduct, user.getAuthToken());
         }
-        return "redirect:/app/product/list";
+        return "redirect:app/product/list";
     }
 
+    // NEW
     @GetMapping("/new")
     public String getProductNew(Model model) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
-        return "/app/product/product_new";
-    }
-
-    @PostMapping("/delete/{id}")
-    public String postProductDelete(@PathVariable("id") long id) {
-        User user = userService.getCurrentUser().orElse(null); // Get current user.
-        productService.deleteProduct(id, user.getAuthToken());
-        return "redirect:/app/product/list";
+        return "app/product/product_new";
     }
 
     @PostMapping("/new")
@@ -91,7 +87,15 @@ public class ProductController {
         product.setImg(img);
         product.setPrice(price);
         productService.createProduct(product, user.getAuthToken());
-        return "redirect:/app/product/list";
+        return "redirect:app/product/list";
+    }
+
+    // DELETE
+    @PostMapping("/delete/{id}")
+    public String postProductDelete(@PathVariable("id") long id) {
+        User user = userService.getCurrentUser().orElse(null); // Get current user.
+        productService.deleteProduct(id, user.getAuthToken());
+        return "redirect:app/product/list";
     }
 
 }

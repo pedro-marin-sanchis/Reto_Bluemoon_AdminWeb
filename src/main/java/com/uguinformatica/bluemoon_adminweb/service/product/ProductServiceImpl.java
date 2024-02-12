@@ -1,6 +1,6 @@
 package com.uguinformatica.bluemoon_adminweb.service.product;
 import com.uguinformatica.bluemoon_adminweb.model.Product;
-import com.uguinformatica.bluemoon_adminweb.service.APIConstants;
+import com.uguinformatica.bluemoon_adminweb.service.APIValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -34,7 +34,7 @@ public class ProductServiceImpl implements IProductService{
         ParameterizedTypeReference<List<Product>> responseType = new ParameterizedTypeReference<List<Product>>() {};
         Optional<List<Product>> products = Optional.ofNullable(
                 restTemplate.exchange(
-                        APIConstants.API_URL + "/products",
+                        APIValues.API_URL + "/products",
                         HttpMethod.GET,
                         entity,
                         responseType
@@ -59,7 +59,7 @@ public class ProductServiceImpl implements IProductService{
 
         return Optional.ofNullable(
                 restTemplate.exchange(
-                        APIConstants.API_URL + "/products" + id,
+                        APIValues.API_URL + "/products" + id,
                         HttpMethod.GET,
                         entity,
                         Product.class
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements IProductService{
         headers.set("Authorization", token);
         HttpEntity<Product> requestEntity = new HttpEntity<>(product, headers);
 
-        restTemplate.put(APIConstants.API_URL + "/products" + product.getId(), requestEntity);
+        restTemplate.put(APIValues.API_URL + "/products" + product.getId(), requestEntity);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ProductServiceImpl implements IProductService{
         headers.set("Authorization", token);
         HttpEntity<Product> requestEntity = new HttpEntity<>(product, headers);
         restTemplate.exchange(
-                APIConstants.API_URL + "/products",
+                APIValues.API_URL + "/products",
                 HttpMethod.POST,
                 requestEntity,
                 Product.class
@@ -94,7 +94,7 @@ public class ProductServiceImpl implements IProductService{
         headers.set("Authorization", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         restTemplate.exchange(
-                APIConstants.API_URL + "/products" + id,
+                APIValues.API_URL + "/products" + id,
                 HttpMethod.DELETE,
                 entity,
                 Object.class);

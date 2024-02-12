@@ -19,11 +19,12 @@ public class HomeController {
         this.userService = userService;
     }
 
+    // DASHBOARD
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
-        return "/app/dashboard";
+        return "app/dashboard";
     }
 
 }

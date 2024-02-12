@@ -26,22 +26,24 @@ public class TradeController {
         this.tradeService = tradeService;
     }
 
+    // PLP
     @GetMapping("/list")
     public String getTradeList(Model model) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
 
         model.addAttribute("trades", tradeService.getAllTrades(user.getAuthToken()).orElse(null));
-        return "/app/trade/trade_list";
+        return "app/trade/trade_list";
     }
 
+    // PDP
     @GetMapping("/inspect/{id}")
     public String getTradeInspect(Model model, @PathVariable("id") int id) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
 
         model.addAttribute("trade", tradeService.getTradeById(id, user.getAuthToken()).orElse(null));
-        return "/app/trade/trade_inspect";
+        return "app/trade/trade_inspect";
     }
 
     @PostMapping("/inspect/{id}")
@@ -57,14 +59,15 @@ public class TradeController {
             updatedTrade.setValidated(approval);
             tradeService.updateTrade(updatedTrade, user.getAuthToken());
         }
-        return "redirect:/app/trade/list";
+        return "redirect:app/trade/list";
     }
 
+    // DELETE
     @PostMapping("/delete/{id}")
     public String postTradeDelete(@PathVariable("id") int id) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         tradeService.deleteTrade(id, user.getAuthToken());
-        return "redirect:/app/trade/list";
+        return "redirect:app/trade/list";
     }
 
 }

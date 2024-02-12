@@ -19,10 +19,11 @@ public class ProfileController {
         this.userService = userService;
     }
 
+    // PROFILE
     @GetMapping("/overview")
     public String getProfileOverview(Model model) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         model.addAttribute("user", user);
-        return "/app/profile/profile_overview";
+        return "app/profile/profile_overview";
     }
 }

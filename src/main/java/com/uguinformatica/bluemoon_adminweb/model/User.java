@@ -31,7 +31,7 @@ public class User {
     private String email;
     private String address;
     private Double balance;
-    private String password;
+    private String password; // Never received. REST API does not disclose passwords.
     private Set<Role> rolesAssociated = new HashSet<>();
     private String authToken;
 

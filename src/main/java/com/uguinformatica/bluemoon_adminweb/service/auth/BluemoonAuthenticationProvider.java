@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class BluemoonAuthenticationProvider implements AuthenticationProvider {
 
     private final IUserService userService;
 
     @Autowired
-    public CustomAuthenticationProvider(IUserService userService) {
+    public BluemoonAuthenticationProvider(IUserService userService) {
         this.userService = userService;
     }
 
@@ -28,22 +28,22 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        String token = userService.getUserAuthToken(username, password);
+        String apiToken = userService.getUserAuthToken(username, password);
 
-        if (token != null) {
+        if (apiToken != null) {
             System.out.println("Authentication Token Present");
-            // Load user details from the user service
+            // Load user details from the user service.
             Optional<User> user = userService.getUserByUsername(username);
             if (user.isPresent()) {
-                // User is authenticated, so assign roles
+                // User is authenticated, so assign roles.
                 Collection<GrantedAuthority> authorities = new ArrayList<>();
                 for (Role role : user.get().getRolesAssociated()) {
                     authorities.add(new SimpleGrantedAuthority(role.getName()));
                 }
-                // Create a custom authentication token with username, token, password, and authorities
-                CustomAuthenticationToken customToken = new CustomAuthenticationToken(username, token, password, authorities);
+                // Create a custom authentication token with username, token, password, and authorities.
+                BluemoonAuthenticationToken authToken = new BluemoonAuthenticationToken(username, apiToken, password, authorities);
                 System.out.println("Authentication Successful");
-                return customToken;
+                return authToken;
             }
         }
         System.out.println("Authentication Failed");

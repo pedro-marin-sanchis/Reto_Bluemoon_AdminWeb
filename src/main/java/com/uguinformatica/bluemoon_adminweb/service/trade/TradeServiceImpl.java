@@ -1,8 +1,7 @@
 package com.uguinformatica.bluemoon_adminweb.service.trade;
 
 import com.uguinformatica.bluemoon_adminweb.model.Trade;
-import com.uguinformatica.bluemoon_adminweb.service.APIConstants;
-import com.uguinformatica.bluemoon_adminweb.service.user.IUserService;
+import com.uguinformatica.bluemoon_adminweb.service.APIValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -35,7 +34,7 @@ public class TradeServiceImpl implements ITradeService {
         ParameterizedTypeReference<List<Trade>> responseType = new ParameterizedTypeReference<List<Trade>>() {};
         Optional<List<Trade>> trades = Optional.ofNullable(
                 restTemplate.exchange(
-                        APIConstants.API_URL + "/trades",
+                        APIValues.API_URL + "/trades",
                         HttpMethod.GET,
                         entity,
                         responseType).getBody());
@@ -54,7 +53,7 @@ public class TradeServiceImpl implements ITradeService {
         headers.set("Authorization", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        return Optional.ofNullable(restTemplate.exchange(APIConstants.API_URL + "/trades/" + id, HttpMethod.GET, entity, Trade.class).getBody());
+        return Optional.ofNullable(restTemplate.exchange(APIValues.API_URL + "/trades/" + id, HttpMethod.GET, entity, Trade.class).getBody());
     }
 
     @Override
@@ -62,7 +61,7 @@ public class TradeServiceImpl implements ITradeService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<Trade> requestEntity = new HttpEntity<>(trade, headers);
-        restTemplate.put(APIConstants.API_URL + "/trades/" + trade.getId(), requestEntity);
+        restTemplate.put(APIValues.API_URL + "/trades/" + trade.getId(), requestEntity);
     }
 
     @Override
@@ -71,6 +70,6 @@ public class TradeServiceImpl implements ITradeService {
         headers.set("Authorization", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        restTemplate.exchange(APIConstants.API_URL + "/trades/" + id, HttpMethod.DELETE, entity, Object.class);
+        restTemplate.exchange(APIValues.API_URL + "/trades/" + id, HttpMethod.DELETE, entity, Object.class);
     }
 }

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uguinformatica.bluemoon_adminweb.model.User;
 
-import com.uguinformatica.bluemoon_adminweb.service.APIConstants;
-import com.uguinformatica.bluemoon_adminweb.service.auth.CustomAuthenticationToken;
+import com.uguinformatica.bluemoon_adminweb.service.APIValues;
+import com.uguinformatica.bluemoon_adminweb.service.auth.BluemoonAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,15 +31,14 @@ public class UserServiceImpl implements IUserService {
 
     public Optional<User> getUserByUsername(String username) {
 
-        String token = getUserAuthToken("bluemoon_admin", "ur%]SEmRPcvMqfB;2xs>!");
-        // HASH: $2y$10$mYRmCJmc5jcD2dniHqJISOfQRqTXCayVibX/t2kynDPyL0X0cUOpy
+        String token = getUserAuthToken(APIValues.APP_USER_USERNAME, APIValues.APP_USER_PASSWORD);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         ResponseEntity<User> response = restTemplate.exchange(
-                APIConstants.API_URL + "/users/" + username,
+                APIValues.API_URL + "/users/" + username,
                 HttpMethod.GET,
                 entity,
                 User.class
@@ -51,10 +49,9 @@ public class UserServiceImpl implements IUserService {
 
     public Optional<User> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof CustomAuthenticationToken) {
-            CustomAuthenticationToken customAuthToken = (CustomAuthenticationToken) authentication;
+        if (authentication instanceof BluemoonAuthenticationToken customAuthToken) {
             String username = customAuthToken.getName();
-            String token = customAuthToken.getToken();
+            String token = customAuthToken.getAuthenticationToken();
             Optional<User> user = getUserByUsername(username);
             user.get().setAuthToken(token);
             return user;
@@ -74,7 +71,7 @@ public class UserServiceImpl implements IUserService {
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(APIConstants.API_URL + "/login", requestEntity, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(APIValues.API_URL + "/login", requestEntity, String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response.getBody());
             return root.get("token").asText();
@@ -82,11 +79,6 @@ public class UserServiceImpl implements IUserService {
             System.out.println("Login failed -> HTTP Response "+e.getMessage());
         } catch (IOException ignored) {}
         return null;
-    }
-
-    @Override
-    public String getCurrentUserAuthToken() {
-        return "a";
     }
 
 }

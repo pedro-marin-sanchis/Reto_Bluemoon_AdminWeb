@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.uguinformatica</groupId>
 	<artifactId>Bluemoon_AdminWeb</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Bluemoon_AdminWeb</name>
 	<description>Administrator website for Bluemoon</description>
 	<properties>
@@ -58,25 +58,14 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Database Access -->
-		<!--
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		-->
-
-		<!-- Lombok -->
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>annotationProcessor</scope>
+			<version>1.18.30</version>
+			<scope>provided</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>

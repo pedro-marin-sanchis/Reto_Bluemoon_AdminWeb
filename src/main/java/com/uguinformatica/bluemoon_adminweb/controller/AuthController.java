@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 public class AuthController {
 
+    // LOGIN
     @GetMapping("/login")
     public String getLogin() {
-        return "/auth/auth_login";
+        return "auth/auth_login";
     }
 
+    // LOGOUT
     @GetMapping("/logout")
     public String getLogout() {
-        return "/auth/auth_logout";
+        return "auth/auth_logout";
     }
 
 }

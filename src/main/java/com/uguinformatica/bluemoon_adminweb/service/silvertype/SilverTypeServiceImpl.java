@@ -1,13 +1,12 @@
 package com.uguinformatica.bluemoon_adminweb.service.silvertype;
 
 import com.uguinformatica.bluemoon_adminweb.model.SilverType;
-import com.uguinformatica.bluemoon_adminweb.service.APIConstants;
+import com.uguinformatica.bluemoon_adminweb.service.APIValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,7 +32,7 @@ public class SilverTypeServiceImpl implements ISilverTypeService{
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         ParameterizedTypeReference<List<SilverType>> responseType = new ParameterizedTypeReference<List<SilverType>>() {};
-        Optional<List<SilverType>> silverTypes = Optional.ofNullable(restTemplate.exchange(APIConstants.API_URL + "/silver-types", HttpMethod.GET, entity, responseType).getBody());
+        Optional<List<SilverType>> silverTypes = Optional.ofNullable(restTemplate.exchange(APIValues.API_URL + "/silver-types", HttpMethod.GET, entity, responseType).getBody());
         if (silverTypes.isPresent()) {
             List<SilverType> filteredAndSortedSilverTypes = silverTypes.get().stream()
                     .filter(silverType -> !silverType.getDisabled())
@@ -50,7 +49,7 @@ public class SilverTypeServiceImpl implements ISilverTypeService{
         headers.set("Authorization", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        return Optional.ofNullable(restTemplate.exchange(APIConstants.API_URL + "/silver-types/" + id, HttpMethod.GET, entity, SilverType.class).getBody());
+        return Optional.ofNullable(restTemplate.exchange(APIValues.API_URL + "/silver-types/" + id, HttpMethod.GET, entity, SilverType.class).getBody());
     }
 
     @Override
@@ -58,7 +57,7 @@ public class SilverTypeServiceImpl implements ISilverTypeService{
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<SilverType> requestEntity = new HttpEntity<>(silverType, headers);
-        restTemplate.put(APIConstants.API_URL + "/silver-types/" + silverType.getId(), requestEntity);
+        restTemplate.put(APIValues.API_URL + "/silver-types/" + silverType.getId(), requestEntity);
     }
 
     @Override
@@ -67,7 +66,7 @@ public class SilverTypeServiceImpl implements ISilverTypeService{
         headers.set("Authorization", token);
         HttpEntity<SilverType> requestEntity = new HttpEntity<>(silverType, headers);
         restTemplate.exchange(
-                APIConstants.API_URL + "/silver-types",
+                APIValues.API_URL + "/silver-types",
                 HttpMethod.POST,
                 requestEntity,
                 SilverType.class
@@ -80,7 +79,7 @@ public class SilverTypeServiceImpl implements ISilverTypeService{
         headers.set("Authorization", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        restTemplate.exchange(APIConstants.API_URL + "/silver-types/" + id, HttpMethod.DELETE, entity, Object.class);
+        restTemplate.exchange(APIValues.API_URL + "/silver-types/" + id, HttpMethod.DELETE, entity, Object.class);
     }
 
 }

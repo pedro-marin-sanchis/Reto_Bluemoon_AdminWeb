@@ -21,14 +21,14 @@ public class SecurityConfig {
                 .requestMatchers("/image/**", "/css/**", "/js/**", "/font/**").permitAll()
                 .requestMatchers("/auth/logout").authenticated()
                 .requestMatchers("/auth/**").permitAll()
-                .anyRequest().hasAuthority("ADMIN")
+                .anyRequest().hasAuthority("ADMIN") // To allow only ADMIN users into the application.
         ).formLogin(form ->
                 form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/auth/login")
                         .failureUrl("/auth/login?error=true")
                         .defaultSuccessUrl("/app/dashboard", true)
-                        .permitAll()
+                        .permitAll() // To allow anyone to login.
         ).logout(logout ->
                 logout
                         .logoutUrl("/auth/logout")
@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .addLogoutHandler(new SecurityContextLogoutHandler())
-                        .permitAll()
+                        .permitAll() // To allow anyone to logout.
         );
 
         return http.build();

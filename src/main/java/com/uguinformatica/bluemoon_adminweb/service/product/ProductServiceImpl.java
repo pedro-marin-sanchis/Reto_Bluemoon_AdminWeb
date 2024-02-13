@@ -59,7 +59,7 @@ public class ProductServiceImpl implements IProductService{
 
         return Optional.ofNullable(
                 restTemplate.exchange(
-                        APIValues.API_URL + "/products" + id,
+                        APIValues.API_URL + "/products/" + id,
                         HttpMethod.GET,
                         entity,
                         Product.class
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements IProductService{
         headers.set("Authorization", token);
         HttpEntity<Product> requestEntity = new HttpEntity<>(product, headers);
 
-        restTemplate.put(APIValues.API_URL + "/products" + product.getId(), requestEntity);
+        restTemplate.put(APIValues.API_URL + "/products/" + product.getId(), requestEntity);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ProductServiceImpl implements IProductService{
         headers.set("Authorization", token);
         HttpEntity<?> entity = new HttpEntity<>(headers);
         restTemplate.exchange(
-                APIValues.API_URL + "/products" + id,
+                APIValues.API_URL + "/products/" + id,
                 HttpMethod.DELETE,
                 entity,
                 Object.class);

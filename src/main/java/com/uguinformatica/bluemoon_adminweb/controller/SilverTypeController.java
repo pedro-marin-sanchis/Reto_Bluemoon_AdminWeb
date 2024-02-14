@@ -52,7 +52,7 @@ public class SilverTypeController {
             silverType.setName(name);
             silverTypeService.updateSilverType(silverType, user.getAuthToken());
         }
-        return "redirect:app/silvertype/list";
+        return "redirect:/app/silvertype/list";
     }
 
     // NEW
@@ -70,7 +70,7 @@ public class SilverTypeController {
         silverType.setCurrentPrice(currentPrice);
         silverType.setName(name);
         silverTypeService.createSilverType(silverType, user.getAuthToken());
-        return "redirect:app/silvertype/list";
+        return "redirect:/app/silvertype/list";
     }
 
     // DELETE
@@ -78,7 +78,7 @@ public class SilverTypeController {
     public String postSilverTypeDelete(@PathVariable long id) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         silverTypeService.deleteSilverType(id, user.getAuthToken());
-        return "redirect:app/silvertype/list";
+        return "redirect:/app/silvertype/list";
     }
 
 }

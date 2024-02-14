@@ -60,7 +60,7 @@ public class ProductController {
             updatedProduct.setPrice(price);
             productService.updateProduct(updatedProduct, user.getAuthToken());
         }
-        return "redirect:app/product/list";
+        return "redirect:/app/product/list";
     }
 
     // NEW
@@ -87,7 +87,7 @@ public class ProductController {
         product.setImg(img);
         product.setPrice(price);
         productService.createProduct(product, user.getAuthToken());
-        return "redirect:app/product/list";
+        return "redirect:/app/product/list";
     }
 
     // DELETE
@@ -95,7 +95,7 @@ public class ProductController {
     public String postProductDelete(@PathVariable("id") long id) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         productService.deleteProduct(id, user.getAuthToken());
-        return "redirect:app/product/list";
+        return "redirect:/app/product/list";
     }
 
 }

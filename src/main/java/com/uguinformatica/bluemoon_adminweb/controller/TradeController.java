@@ -59,7 +59,7 @@ public class TradeController {
             updatedTrade.setValidated(approval);
             tradeService.updateTrade(updatedTrade, user.getAuthToken());
         }
-        return "redirect:app/trade/list";
+        return "redirect:/app/trade/list";
     }
 
     // DELETE
@@ -67,7 +67,7 @@ public class TradeController {
     public String postTradeDelete(@PathVariable("id") int id) {
         User user = userService.getCurrentUser().orElse(null); // Get current user.
         tradeService.deleteTrade(id, user.getAuthToken());
-        return "redirect:app/trade/list";
+        return "redirect:/app/trade/list";
     }
 
 }

@@ -11,7 +11,7 @@ public class BluemoonAdminWebApplication {
 		String apiUrl = System.getenv("API_URL");
 		String appUserUsername = System.getenv("APP_USER_USERNAME");
 		String appUserPassword = System.getenv("APP_USER_PASSWORD");
-
+		System.out.println(System.getenv("API_URL"));
 		if (apiUrl != null && !apiUrl.isEmpty()) { APIValues.API_URL = apiUrl; }
 		if (appUserUsername != null && !appUserUsername.isEmpty()) { APIValues.APP_USER_USERNAME = appUserUsername; }
 		if (appUserPassword != null && !appUserPassword.isEmpty()) { APIValues.APP_USER_PASSWORD = appUserPassword; }

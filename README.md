@@ -31,11 +31,23 @@ docker run -p 8081:8081 bluemoonadminweb
 ```
 You can also specify **enviroment variables** to set the **API URL** or the administrator account used internally by the app.
 ```bash
-docker run -p 8081:8081 -e API_URL=url APP_USER_USERNAME=usr APP_USER_PASSWORD=secret bluemoonadminweb
+docker run -p 8081:8081 -e API_URL=http://192.168.1.129:8080/api -e APP_USER_USERNAME=bluemoon_admin -e APP_USER_PASSWORD='ur%]SEmRPcvMqfB;2xs>!' bluemoonadminweb
 ```
-By default, the connection data are the follwing: \
+
+For example, let's say our **host** machine IP adress is **192.168.1.129** and we are running the REST API locally. We would include the following URL:
+
+-e API_URL=http://192.168.1.129:8080/api
+
+By default, the connection data are the follwing:
+
 **Username**: bluemoon_admin \
 **Password**: ur%]SEmRPcvMqfB;2xs>!
+
+It is recommended to leave out the connection data and only specify the URL like so:
+```bash
+docker run -p 8081:8081 -e API_URL=http://192.168.1.129:8080/api bluemoonadminweb
+```
+
 
 ## USER MANUAL
 

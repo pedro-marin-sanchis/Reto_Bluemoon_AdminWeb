@@ -14,4 +14,4 @@ ENTRYPOINT [                                                    \
 
 # docker build -t bluemoonadminweb .
 # docker run -p 8081:8081 bluemoonadminweb
-# docker run -p 8081:8081 -e API_URL=url APP_USER_USERNAME=usr APP_USER_PASSWORD=secret bluemoonadminweb
+# docker run -p 8081:8081 -e API_URL=http://192.168.1.129:8080/api -e APP_USER_USERNAME=bluemoon_admin -e APP_USER_PASSWORD='ur%]SEmRPcvMqfB;2xs>!' bluemoonadminweb

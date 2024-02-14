@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public class BluemoonAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
-    private final String authenticationToken;
+    private final String authenticationToken; // JSON Web Token
 
     public BluemoonAuthenticationToken(Object principal, Object authenticationToken, Object credentials, Collection<? extends GrantedAuthority> authorities) {
         super(principal, credentials, authorities);
